@@ -13,7 +13,8 @@ usd = "&pref=USD"
 btc = "&pref=BTC"
 
 def human_format(num):
-    num = int(num[:-11])
+    if type(num) is str:
+        num = int(num[:-11])
     num = float('{:.3g}'.format(num))
     magnitude = 0
     while abs(num) >= 1000:
@@ -22,24 +23,13 @@ def human_format(num):
     return '{}{}'.format('{:f}'.format(num).rstrip('0').rstrip('.'), ['', 'K', 'M', 'B', 'T'][magnitude])
 
 def human_format(num, round_to=2):
-    num = int(num[:-11])
+    if type(num) is str:
+        num = int(num[:-11])
     magnitude = 0
     while abs(num) >= 1000:
         magnitude += 1
         num = round(num / 1000.0, round_to)
     return '{:.{}f}{}'.format(round(num, round_to), round_to, ['', 'K', 'M', 'B', 'T', 'P'][magnitude])
-
-"""
-def to_billions(a):
-    a = a[:-17]
-    b = str(a[-17:1] + '.' + a[-16:-1] + ' Billion')
-    return b
-
-def to_millions(a):
-    a = a[:-14]
-    b = str(a[-14:1] + '.' + a[1:-1] + ' Million')
-    return b
-"""
 
 coinlib_global = "https://coinlib.io/api/v1/global?key=" + api_key + usd
 print(coinlib_global,"\n-----\n")
